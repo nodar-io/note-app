@@ -2,8 +2,8 @@ const btnEl = document.getElementById("btn");
 const appEl = document.getElementById("app");
 
 getNotes().forEach(note => {
-  const noteEl = createNoteEl(note.id,note.content)
-  appEl.insertBefore(noteEl,btnEl)
+  const noteEl = createNoteEl(note.id, note.content);
+  appEl.insertBefore(noteEl, btnEl);
 });
 
 function createNoteEl(id, content) {
@@ -13,7 +13,7 @@ function createNoteEl(id, content) {
   element.value = content;
 
   element.addEventListener("dblclick", () => {
-    const warning = confirm("Âû äåéñòâèòåëüíî õîòèòå óäàëèòü çàìåòêó?");
+    const warning = confirm("Ð’Ñ‹ Ð´ÐµÐ¹ÑÑ‚Ð²Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ Ñ…Ð¾Ñ‚Ð¸Ñ‚Ðµ ÑƒÐ´Ð°Ð»Ð¸Ñ‚ÑŒ Ð·Ð°Ð¼ÐµÑ‚ÐºÑƒ?");
     if (warning) {
       deleteNote(id, element);
     }
@@ -23,40 +23,39 @@ function createNoteEl(id, content) {
     updateNote(id, element.value);
   });
 
-  return element
+  return element;
 }
 
-function deleteNote(id,element) {
-  const notes = getNotes().filter(note=>note.id !==id)
-  saveNote(notes)
-  appEl.removeChild(element)
-
+function deleteNote(id, element) {
+  const notes = getNotes().filter(note => note.id !== id);
+  saveNote(notes);
+  appEl.removeChild(element);
 }
 
-function updateNote(id,content) {
-  const notes = getNotes()
-  const target = notes.filter(note=>note.id === id)[0]
-  target.content = content
-  saveNote(notes)
+function updateNote(id, content) {
+  const notes = getNotes();
+  const target = notes.filter(note => note.id === id)[0];
+  target.content = content;
+  saveNote(notes);
 }
 
 function addNote() {
-  const notes = getNotes()
+  const notes = getNotes();
   const noteObj = {
     id: Math.floor(Math.random() * 100_000),
     content: "",
   };
   const noteEl = createNoteEl(noteObj.id, noteObj.content);
-  appEl.insertBefore(noteEl,btnEl)
-  notes.push(noteObj)
-  saveNote(notes)
+  appEl.insertBefore(noteEl, btnEl);
+  notes.push(noteObj);
+  saveNote(notes);
 }
 
-function saveNote(notes){
-  localStorage.setItem('note-app',JSON.stringify(notes))
+function saveNote(notes) {
+  localStorage.setItem("note-app", JSON.stringify(notes));
 }
 
-function getNotes(){
-  return JSON.parse(localStorage.getItem('note-app') || '[]')
+function getNotes() {
+  return JSON.parse(localStorage.getItem("note-app") || "[]");
 }
 btnEl.addEventListener("click", addNote);
